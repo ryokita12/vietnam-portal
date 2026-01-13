@@ -27,7 +27,11 @@ const mockShops: Shop[] = [
     rating: 4.6,
     reviewCount: 128,
     tags: ["Vietnamese", "Pho", "Popular"],
-    images: ["/images/food-1.jpg", "/images/food-2.jpg", "/images/food-3.jpg"],
+    images: [
+      "/images/SaigonBowl-food_1.png",
+      "/images/SaigonBowl-food_2.png",
+      "/images/SaigonBowl-interior.png",
+    ],
     description:
       "Classic Vietnamese bowls and pho. Great for lunch and quick dinner.",
     menu: [
@@ -51,9 +55,9 @@ const mockShops: Shop[] = [
     reviewCount: 76,
     tags: ["Steak", "Dinner", "Cozy"],
     images: [
-      "/images/food-4.jpg",
-      "/images/food-5.jpg",
-      "/images/food-6.jpg",
+      "/images/Riverfront Grill-food1.png",
+      "/images/Riverfront Grill-food2.png",
+      "/images/Riverfront Grill-interior.png",
     ],
     description:
       "Cozy dinner spot with steaks and wine. Great for business dinners.",
@@ -77,11 +81,8 @@ const mockShops: Shop[] = [
     rating: 4.7,
     reviewCount: 212,
     tags: ["Aroma", "Couple", "Quiet"],
-    images: [
-      "/images/spa-1.jpg",
-      "/images/spa-2.jpg",
-      "/images/spa-3.jpg",
-    ],
+    // ✅ 追加：LotusSpa-1 / LotusSpa-2
+    images: ["/images/LotusSpa-1.png", "/images/LotusSpa-2.png"],
     description:
       "Quiet spa offering aroma and couple packages. Reservation recommended.",
     menu: [
@@ -104,11 +105,8 @@ const mockShops: Shop[] = [
     rating: 4.3,
     reviewCount: 54,
     tags: ["Foot", "Quick", "Budget"],
-    images: [
-      "/images/spa-4.jpg",
-      "/images/spa-5.jpg",
-      "/images/spa-6.jpg",
-    ],
+    // ✅ 追加：Zen Foot Care-1 / Zen Foot Care-2
+    images: ["/images/Zen Foot Care-1.png", "/images/Zen Foot Care-2.png"],
     description:
       "Budget-friendly foot care. Quick walk-ins available most days.",
     menu: [
@@ -127,6 +125,11 @@ const mockSlots = [
   { date: "Today", times: ["10:00", "11:30", "14:00", "16:30"] },
   { date: "Tomorrow", times: ["09:30", "12:00", "15:00", "18:00"] },
 ];
+
+function buildGoogleMapsUrl(address: string) {
+  const q = encodeURIComponent(address);
+  return `https://www.google.com/maps/search/?api=1&query=${q}`;
+}
 
 export default async function ShopDetailPage({
   params,
@@ -153,6 +156,8 @@ export default async function ShopDetailPage({
     );
   }
 
+  const mapsUrl = buildGoogleMapsUrl(shop.address);
+
   return (
     <div className="min-h-screen bg-zinc-50 flex justify-center">
       <main className="w-full max-w-sm bg-white px-4 py-5 pb-24">
@@ -164,9 +169,22 @@ export default async function ShopDetailPage({
           </Link>
         </div>
 
-        {/* Image (dummy) */}
-        <div className="rounded-xl border bg-zinc-100 h-44 flex items-center justify-center text-sm text-zinc-500">
-          Photo (dummy)
+        {/* Photos (simple "slide" via horizontal scroll) */}
+        <div className="-mx-4 px-4">
+          <div className="flex gap-3 overflow-x-auto pb-1 snap-x snap-mandatory">
+            {shop.images.map((src, idx) => (
+              <div key={`${src}-${idx}`} className="min-w-[85%] snap-start">
+                <img
+                  src={src}
+                  alt={`${shop.name} photo ${idx + 1}`}
+                  className="h-44 w-full rounded-xl border object-cover"
+                />
+              </div>
+            ))}
+          </div>
+          <div className="mt-2 text-center text-[11px] text-zinc-500">
+            Swipe photos
+          </div>
         </div>
 
         {/* Meta */}
@@ -190,13 +208,26 @@ export default async function ShopDetailPage({
           </div>
         </div>
 
-        {/* Address + Map dummy */}
+        {/* Address + Map */}
         <div className="mt-5 space-y-2">
           <div className="text-sm font-semibold">Address</div>
           <div className="text-sm text-zinc-700">{shop.address}</div>
-          <div className="rounded-xl border bg-zinc-50 h-28 flex items-center justify-center text-xs text-zinc-500">
-            Map (dummy)
-          </div>
+
+          {/* Map = Google Maps link card (no embed) */}
+          <a
+            href={mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block rounded-xl border bg-zinc-50 p-4"
+          >
+            <div className="flex items-center justify-between">
+              <div className="text-sm font-semibold">Open in Google Maps</div>
+              <div className="text-xs text-zinc-600">↗</div>
+            </div>
+            <div className="mt-1 text-xs text-zinc-600">
+              Tap to view route / nearby
+            </div>
+          </a>
         </div>
 
         {/* Description */}

@@ -9,6 +9,7 @@ type Shop = {
   rating: number;
   reviewCount: number;
   tags: string[];
+  image?: string;
 };
 
 const mockShops: Shop[] = [
@@ -21,6 +22,7 @@ const mockShops: Shop[] = [
     rating: 4.6,
     reviewCount: 128,
     tags: ["Vietnamese", "Pho", "Popular"],
+    image: "/images/SaigonBowl.png",
   },
   {
     id: "riverfront-grill",
@@ -31,6 +33,7 @@ const mockShops: Shop[] = [
     rating: 4.4,
     reviewCount: 76,
     tags: ["Steak", "Dinner", "Cozy"],
+    image: "/images/Riverfront Grill.png",
   },
   {
     id: "lotus-spa",
@@ -41,6 +44,7 @@ const mockShops: Shop[] = [
     rating: 4.7,
     reviewCount: 212,
     tags: ["Aroma", "Couple", "Quiet"],
+    image: "/images/Lotus Spa.png",
   },
   {
     id: "zen-foot-care",
@@ -51,6 +55,7 @@ const mockShops: Shop[] = [
     rating: 4.3,
     reviewCount: 54,
     tags: ["Foot", "Quick", "Budget"],
+    image: "/images/Zen Foot Care.png",
   },
 ];
 
@@ -81,6 +86,14 @@ export default function ShopsPage() {
               href={`/shops/${s.id}`}
               className="block rounded-lg border bg-white p-4 active:scale-[0.99]"
             >
+              {s.image && (
+                <img
+                  src={s.image}
+                  alt={s.name}
+                  className="mb-3 h-32 w-full rounded-md object-cover"
+                />
+              )}
+
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <div className="text-sm font-semibold truncate">{s.name}</div>

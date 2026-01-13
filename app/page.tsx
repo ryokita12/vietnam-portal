@@ -9,10 +9,14 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-zinc-50 flex justify-center">
       <main className="w-full max-w-sm bg-white px-4 py-6 relative">
-        {/* ヘッダー */}
-        <h1 className="text-xl font-semibold text-center mb-6">
-          Vietnam Local Guide
-        </h1>
+        {/* ヘッダー（ロゴ） */}
+        <div className="flex justify-center mb-6">
+          <img
+            src="/VietnumPortal_Logo2.png"
+            alt="Vietnam Local Guide"
+            className="h-28 object-contain"
+          />
+        </div>
 
         {/* 検索フォーム（ダミー） */}
         <div className="space-y-4">
