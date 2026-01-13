@@ -1,25 +1,24 @@
-"use client";
-
 import Link from "next/link";
-import { useMemo } from "react";
-import { useSearchParams } from "next/navigation";
 
-export default function DonePage() {
-  const sp = useSearchParams();
+function makeReceiptNo(shopId: string, date: string, time: string) {
+  const base = `${shopId}|${date}|${time}`;
+  let hash = 0;
+  for (let i = 0; i < base.length; i++) {
+    hash = (hash * 31 + base.charCodeAt(i)) >>> 0;
+  }
+  return `VN-${String(hash).slice(0, 8).padStart(8, "0")}`;
+}
 
-  const shopId = sp.get("shopId") ?? "";
-  const date = sp.get("date") ?? "";
-  const time = sp.get("time") ?? "";
+export default function DonePage({
+  searchParams,
+}: {
+  searchParams?: { shopId?: string; date?: string; time?: string };
+}) {
+  const shopId = searchParams?.shopId ?? "";
+  const date = searchParams?.date ?? "";
+  const time = searchParams?.time ?? "";
 
-  const receiptNo = useMemo(() => {
-    // デモ用：URLパラメータからそれっぽい控え番号を生成
-    const base = `${shopId}|${date}|${time}`;
-    let hash = 0;
-    for (let i = 0; i < base.length; i++) {
-      hash = (hash * 31 + base.charCodeAt(i)) >>> 0;
-    }
-    return `VN-${String(hash).slice(0, 8).padStart(8, "0")}`;
-  }, [shopId, date, time]);
+  const receiptNo = makeReceiptNo(shopId, date, time);
 
   return (
     <div className="min-h-screen bg-zinc-50 flex justify-center">
