@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Vietnum Portal",
+  title: "Vietnam Portal",
   description: "Discover restaurants and wellness spots in Vietnam",
   icons: {
     icon: [
